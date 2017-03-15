@@ -1,0 +1,36 @@
+// ==UserScript==
+// @name         RoyalRoadL:: Clean read experience for @voice
+// @namespace    http://tampermonkey.net/
+// @version      0.2
+// @description  Little script to clean RoyalRoadL reading to import to @voice through dropbox
+// @author       ratgr
+// @match        https://royalroadl.com/fiction/chapter/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    var overlay = $('<div id="overlay"> </div>');
+    overlay.css({ position: "fixed", top: 0,left: 0, width: "100vw", height: "100vh", "background-color": "#000", opacity: 0.5, "z-index": 10000});
+    overlay.appendTo(document.body);
+    var portlets = $(".portlet.light");
+    $("#researchpermission").remove();
+    for(var i = 0; i < portlets.length; i++){
+        if(i != 1) $(portlets[i]).remove();
+    }
+    overlay.css({ position: "fixed", top: 0,left: 0, width: "10px", height: "100vh", "background-color": "green", opacity: 0.5, "z-index": 10000});
+    //overlay.remove();
+    var url;
+    $(document).keydown(function(e){
+        if(e.key == "ArrowRight" && e.ctrlKey){
+            url = $("div.page-container > div > div > div > div.portlet.light.chapter > div.portlet-body > div.row.margin-bottom-10 > a:nth-child(3)").attr("href");
+            window.location = url;
+        }
+         if(e.key == "ArrowLeft" && e.ctrlKey){
+            url = $("body > div.page-container > div > div > div > div.portlet.light.chapter > div.portlet-body > div.row.margin-bottom-10 > a:nth-child(1)").attr("href");
+            window.location = url;
+        }
+        //console.log(e.key, ", ",e.ctrlKey );
+
+    });
+})();
